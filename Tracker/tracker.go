@@ -12,10 +12,6 @@ type TrackedURL struct {
 	timestamp  time.Time
 }
 
-type TrackedURLHealth struct {
-	name string
-}
-
 var (
 	Tracked = make(chan *TrackedURL)
 )
