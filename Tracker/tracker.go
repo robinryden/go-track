@@ -46,12 +46,12 @@ func HealthCheck(url *TrackedURL) {
 
 	switch url.statusCode {
 	case 200:
-		fmt.Printf("The site %v is alive", url.name)
+		fmt.Printf("The requested url %v results in 200\n", url.name)
 	case 403:
-		fmt.Printf("The site %v gives bad request", url.name)
+		fmt.Printf("The requested url %v results in 403\n", url.name)
 	case 404:
-		fmt.Printf("The site %v can not find the page", url.name)
+		fmt.Printf("The requested url %v results in 404\n", url.name)
 	case 500:
-		fmt.Printf("The site %v gives a internal server error", url.name)
+		fmt.Printf("The requested url %v results in 500\n", url.name)
 	}
 }
