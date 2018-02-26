@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	urls = []string{"http://www.strateg.se", "https://www.google.se", "https://www.blocket.se"}
+	urls = []string{"http://www.strateg.se", "https://www.google.se", "https://www.blocket.se", "http://strateg.design", "http://www.strateg.se/monkasurl.html", "http://www.strateg.se/kontaktfelstavattyp.html"}
 )
 
 func main() {

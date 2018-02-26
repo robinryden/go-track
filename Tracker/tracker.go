@@ -2,6 +2,8 @@ package Tracker
 
 import (
 	"fmt"
+	"go-track/Slack"
+	"log"
 	"net/http"
 	"time"
 )
@@ -30,7 +32,7 @@ func Start() {
 func TrackURL(url string) {
 	ping, err := http.Get(url)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	defer ping.Body.Close()
 
@@ -50,6 +52,7 @@ func HealthCheck(url *TrackedURL) {
 	case 403:
 		fmt.Printf("The requested url %v results in 403\n", url.name)
 	case 404:
+		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 		fmt.Printf("The requested url %v results in 404\n", url.name)
 	case 500:
 		fmt.Printf("The requested url %v results in 500\n", url.name)
