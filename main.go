@@ -3,11 +3,17 @@ package main
 import (
 	"fmt"
 	"go-track/Tracker"
+
+	"github.com/subosito/gotenv"
 )
 
 var (
-	urls = []string{"http://www.strateg.se/tetetetete.html", "https://www.google.se", "https://www.blocket.se", "http://strateg.design"}
+	urls = []string{"http://www.strateg.se/testsomintefinns.html", "http://www.google.se", "http://www.blocket.se"}
 )
+
+func init() {
+	gotenv.Load()
+}
 
 func main() {
 	go Tracker.Start()

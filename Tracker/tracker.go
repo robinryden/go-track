@@ -48,7 +48,8 @@ func HealthCheck(url *TrackedURL) {
 
 	switch url.statusCode {
 	case 200:
-		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
+		// go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
+		// log success to redis for stacktrace for later use, in case of server stops working
 	case 403:
 		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 	case 404:
