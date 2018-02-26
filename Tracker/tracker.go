@@ -48,13 +48,12 @@ func HealthCheck(url *TrackedURL) {
 
 	switch url.statusCode {
 	case 200:
-		fmt.Printf("The requested url %v results in 200\n", url.name)
+		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 	case 403:
-		fmt.Printf("The requested url %v results in 403\n", url.name)
+		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 	case 404:
 		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
-		fmt.Printf("The requested url %v results in 404\n", url.name)
 	case 500:
-		fmt.Printf("The requested url %v results in 500\n", url.name)
+		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 	}
 }

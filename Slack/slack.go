@@ -2,13 +2,19 @@ package Slack
 
 import (
 	"log"
+	"os"
 
 	slackHandler "github.com/ashwanthkumar/slack-go-webhook"
+	"github.com/joho/godotenv"
 )
 
 var (
-	webhookURL = "https://hooks.slack.com/services/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"
+	webhookURL = os.Getenv("SLACK_WEBHOOK_URL")
 )
+
+func init() {
+	godotenv.Load()
+}
 
 func Post(message string) {
 	payload := slackHandler.Payload{
