@@ -2,6 +2,7 @@ package Tracker
 
 import (
 	"fmt"
+	"go-track/Redis"
 	"go-track/Slack"
 	"log"
 	"net/http"
@@ -50,6 +51,7 @@ func HealthCheck(url *TrackedURL) {
 	case 200:
 		// go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 		// log success to redis for stacktrace for later use, in case of server stops working
+		redis.Logger(url.name, url.statusCode, url.timestamp)
 	case 403:
 		go Slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n", url.name, url.statusCode, url.timestamp.Format("2006-01-02 15:04:05")))
 	case 404:
