@@ -1,22 +1,44 @@
 package redis
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"github.com/go-redis/redis"
 )
 
-func init() {
+type Log struct {
+	Name       string
+	StatusCode int
+	Time       time.Time
+}
+
+func Connect() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_HOST"),
 		Password: os.Getenv("REDIS_PASSWORD"),
 		DB:       0,
 	})
-
-	client.Set("Test key", "Test value", 0)
+	return client
 }
 
-func TestFunction() {
-	fmt.Println("Redis database for logging")
+func Logger(url string, statusCode int, timestamp time.Time) {
+	client := Connect()
+
+	logged := &Log{
+		url,
+		statusCode,
+		timestamp,
+	}
+
+	data, err := json.Marshal(*logged)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	client.Set(url, data, 0)
+	fmt.Println(client.Get(url))
 }
