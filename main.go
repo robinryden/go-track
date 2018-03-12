@@ -1,15 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"go-track/tracker"
+	"sync"
+
+	"github.com/robinryden/go-track/tracker"
 
 	"github.com/robfig/cron"
 	"github.com/subosito/gotenv"
 )
 
 var (
-	urls = []string{"http://www.strateg.se/dajs.html", "http://www.google.se", "http://www.blocket.se"}
+	wg   sync.WaitGroup
+	urls = []string{"https://www.reddit.com/", "https://www.reddit.com/r/golang/"}
 )
 
 func init() {
@@ -17,23 +19,25 @@ func init() {
 }
 
 func main() {
+	cronWorker := cron.New()
+
 	go tracker.Start()
 
-	cronWorker := cron.New()
+	wg.Add(1)
 	cronWorker.AddFunc("1/5 * * * * *", func() {
 		go checkURLS()
 	})
 
 	cronWorker.Start()
-
-	var input string
-	fmt.Scanln(&input)
+	wg.Wait()
 }
 
 func checkURLS() {
 	for _, url := range urls {
 		go func(url string) {
+			wg.Add(1)
 			tracker.TrackURL(url)
+			wg.Done()
 		}(url)
 	}
 }
