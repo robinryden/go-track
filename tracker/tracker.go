@@ -2,11 +2,12 @@ package tracker
 
 import (
 	"fmt"
-	"go-track/redis"
-	"go-track/slack"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/robinryden/go-track/redis"
+	"github.com/robinryden/go-track/slack"
 )
 
 type TrackedURL struct {
@@ -45,7 +46,7 @@ func TrackURL(url string) {
 }
 
 func HealthCheck(url *TrackedURL) {
-	// log success to redis for stacktrace for later use, in case of server stops working
+	// log url check to redis
 	go redis.Logger(url.name, url.statusCode, url.timestamp)
 
 	switch url.statusCode {
