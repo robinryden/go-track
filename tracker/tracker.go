@@ -50,11 +50,11 @@ func HealthCheck(url *TrackedURL) {
 	go redis.Logger(url.name, url.statusCode, url.timestamp)
 
 	switch url.statusCode {
-	case 403:
+	case http.StatusForbidden:
 		fallthrough
-	case 404:
+	case http.StatusNotFound:
 		fallthrough
-	case 500:
+	case http.StatusInternalServerError:
 		go slack.Post(fmt.Sprintf("%s resulted in a %d at %s\n",
 			url.name,
 			url.statusCode,
